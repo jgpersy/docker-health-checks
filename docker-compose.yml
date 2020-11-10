@@ -1,6 +1,22 @@
 version: "3.8"
 
 services:
+    
+    db:
+        build: ./db
+        environment:
+            - POSTGRES_DB=postgres
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
+        # volumes:
+        #     - ./db/db-mount:/var/lib/postgresql/data
+        healthcheck:
+            test: ["CMD", "pg_isready", "-U", "postgres"]
+            interval: 1m30s
+            timeout: 10s
+            retries: 3
+            start_period: 5s
+    
     app:
         build:
             context: .
@@ -9,4 +25,12 @@ services:
         volumes: 
             - ./app:/app
         command: >
-            sh -c "python manage.py runserver 0.0.0.0:8000"
+            sh -c "python manage.py makemigrations viewcount && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+        depends_on: 
+            - "db"
+
+    adminer:
+        image: adminer
+        restart: always
+        ports:
+            - 8080:8080

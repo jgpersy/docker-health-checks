@@ -1,0 +1,8 @@
+{% if response %}
+<ul>
+    {% for line in response %}
+    <p>{{ line }}</p> {% endfor %}
+</ul>
+{% else %}
+<p>Nothing to show</p>
+{% endif %}
