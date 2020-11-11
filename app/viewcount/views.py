@@ -5,9 +5,17 @@ from django.db import OperationalError
 
 from viewcount.models import Viewcount
 
+import requests
+
 #Functions
 def is_fizzbuzzable(number):
-    return "Fizzbuzz" if number % 3==0 and number % 5==0 else "Fizz" if number % 3==0 else "Buzz" if number % 5==0 else str(number) + " is not fizzbuzzable!"
+    number=str(number)
+    headers = {'number': number}
+    a = requests.get('http://api-fizzbuzz:8000', headers=headers)
+    a = dict(a.json())['response']
+    return str(a)
+
+    # return "Fizzbuzz" if number % 3==0 and number % 5==0 else "Fizz" if number % 3==0 else "Buzz" if number % 5==0 else str(number) + " is not fizzbuzzable!"
 
 
 def get_visit_count():

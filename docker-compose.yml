@@ -31,6 +31,22 @@ services:
         depends_on: 
             - "db"
 
+    api-fizzbuzz:
+        build: ./apifizzbuzz
+        ports:
+            - "8001:8000"
+        volumes:
+            - ./apifizzbuzz/app:/apifizzbuzz
+        command: >
+            sh -c "python manage.py runserver 0.0.0.0:8000"
+        healthcheck:
+            test: ["CMD", "curl", "http://localhost:8000/healthcheck"]
+            interval: 1m30s
+            timeout: 10s
+            retries: 3
+            start_period: 5s
+    
+    #Database manager to verify data is saving into DB
     adminer:
         image: adminer
         restart: always
