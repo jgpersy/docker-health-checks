@@ -16,7 +16,7 @@ def get_visit_count():
     
     if len(visits_db_object) == 0:
         print("Creating first visit")
-        v = Viewcount(visits = 0)
+        v = Viewcount(visits = 1)
         v.save()
         return v
 
@@ -31,7 +31,7 @@ def increment_visitor_count():
 
 
 def get_sum_of(number):
-    return sum( i for i in range(number + 1))
+    return sum( i for i in range(number + 1) )
 
 
 #Views

@@ -10,12 +10,14 @@ services:
             - POSTGRES_PASSWORD=postgres
         # volumes:
         #     - ./db/db-mount:/var/lib/postgresql/data
+
         healthcheck:
             test: ["CMD", "pg_isready", "-U", "postgres"]
             interval: 1m30s
             timeout: 10s
             retries: 3
             start_period: 5s
+        restart: always
     
     app:
         build:
